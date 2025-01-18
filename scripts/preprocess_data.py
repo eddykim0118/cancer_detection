@@ -1,32 +1,28 @@
+# import warnings
+import numpy as np
+import matplotlib.pyplot as plt
 import os
+import math
 from PIL import Image
 from sklearn.model_selection import train_test_split
 import shutil
+import glob
 
-def preprocess_images(input_dir, output_dir, img_size=(128, 128)):
-    """
-    Resize images and organize them into train/test splits.
-    """
-    os.makedirs(output_dir, exist_ok=True)
+# warnings.filterwarnings("ignore")
+ROOT_DIR = "data/raw/brain_tumor_dataset"
+number_of_images = {}
 
-    # Iterate through class folders (e.g., "no" and "yes")
-    for label in ["no", "yes"]:
-        input_folder = os.path.join(input_dir, label)
-        output_folder = os.path.join(output_dir, label)
-        os.makedirs(output_folder, exist_ok=True)
+# Loop through each directory (yes/no)
+for dir_name in os.listdir(ROOT_DIR):
+    dir_path = os.path.join(ROOT_DIR, dir_name)
+    # Only process if it's a directory
+    if os.path.isdir(dir_path):
+        number_of_images[dir_name] = len(os.listdir(dir_path))
 
-        for img_name in os.listdir(input_folder):
-            img_path = os.path.join(input_folder, img_name)
-            try:
-                img = Image.open(img_path)
-                img = img.resize(img_size)
-                img.save(os.path.join(output_folder, img_name))
-            except Exception as e:
-                print(f"Error processing image {img_name}: {e}")
+print("Number of images in each class:")
+for class_name, count in number_of_images.items():
+    print(f"{class_name}: {count} images")
 
-    print(f"Preprocessed images saved to {output_dir}")
-
-if __name__ == "__main__":
-    input_dir = "./data/raw/brain_tumor_dataset"
-    output_dir = "./data/processed/brain_tumor_dataset"
-    preprocess_images(input_dir, output_dir)
+# Get only the binary classes (yes/no) by explicitly filtering
+types = [d for d in os.listdir(ROOT_DIR) if d in ['yes', 'no']]
+print("\nClasses in the dataset:", types)
