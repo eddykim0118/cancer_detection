@@ -1,5 +1,4 @@
 requests
 types-requests
 kagglehub
-sklearn
-shutil
+scikit-learn
