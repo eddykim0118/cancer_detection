@@ -1,4 +1,7 @@
 requests
 types-requests
-kagglehub
+kaggle
+numpy
 scikit-learn
+source
+matplotlib
