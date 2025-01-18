@@ -1,3 +1,5 @@
 requests
 types-requests
 kagglehub
+sklearn
+shutil
