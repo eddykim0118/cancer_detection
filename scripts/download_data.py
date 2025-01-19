@@ -1,5 +1,5 @@
 import os
-import kagglehub as kh
+from kaggle.api.kaggle_api_extended import KaggleApi
 
 def download_dataset(dataset_name, output_dir):
     """
@@ -11,16 +11,16 @@ def download_dataset(dataset_name, output_dir):
         print(f"Dataset already exists at {output_dir}. Skipping download.")
         return output_dir
 
-    # Download dataset if not already present
-    print(f"Downloading dataset {dataset_name}...")
-    path = kh.dataset_download(dataset_name)
-    print(f"Dataset downloaded to: {path}")
+    # Authenticate with Kaggle API
+    api = KaggleApi()
+    api.authenticate()
 
-    # Move dataset to the desired directory
+    # Download dataset
+    print(f"Downloading dataset {dataset_name}...")
     os.makedirs(output_dir, exist_ok=True)
-    if os.path.isdir(path):
-        os.rename(path, output_dir)
-    print(f"Dataset organized at: {output_dir}")
+    api.dataset_download_files(dataset_name, path=output_dir, unzip=True)
+    print(f"Dataset downloaded and organized at: {output_dir}")
+    
     return output_dir
 
 if __name__ == "__main__":

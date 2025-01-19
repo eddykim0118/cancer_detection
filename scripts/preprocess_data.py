@@ -26,3 +26,40 @@ for class_name, count in number_of_images.items():
 # Get only the binary classes (yes/no) by explicitly filtering
 types = [d for d in os.listdir(ROOT_DIR) if d in ['yes', 'no']]
 print("\nClasses in the dataset:", types)
+
+'''
+we will split the datat such that:
+* 70% for Train Data
+* 15% for Validation
+* 15% for Testing
+'''
+
+# Create a training folder
+def dataFolder(path, split):
+    if not os.path.exists("./{path}"):
+        os.mkdir("./{path}")
+
+        for dir in os.listdir(ROOT_DIR):
+            os.makedirs(f"./{path}/{dir}")
+            image_list = os.listdir(os.path.join(ROOT_DIR, dir))
+
+            if len(image_list) < math.floor(0.7*number_of_images[dir] - 2):
+                raise ValueError(f"Insufficient images in {dir} class")
+            
+            for img in np.random.choice(a = os.listdir(os.path.join(ROOT_DIR, dir)), 
+                                        size = (math.floor(split*number_of_images[dir]) - 2),
+                                        replace = False):
+                
+                O = os.path.join(ROOT_DIR, dir, img)
+                D = os.path.join("./{path}", dir)
+                shutil.copy(O, D)
+                os.remove(O)
+
+    else:
+        print(f"{path} folder already exists. Skipping...")
+
+def ratio(train_ratio, validation_ratio, test_ratio):
+    dataFolder("train", train_ratio)
+    dataFolder("validation", validation_ratio)
+    dataFolder("test", test_ratio)
+    

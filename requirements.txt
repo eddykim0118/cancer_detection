@@ -3,5 +3,4 @@ types-requests
 kaggle
 numpy
 scikit-learn
-source
 matplotlib
