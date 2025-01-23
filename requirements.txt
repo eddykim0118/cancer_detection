@@ -4,3 +4,5 @@ kaggle
 numpy
 scikit-learn
 matplotlib
+keras
+tensorflow

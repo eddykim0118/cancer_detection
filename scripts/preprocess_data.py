@@ -1,12 +1,9 @@
 # import warnings
 import numpy as np
-import matplotlib.pyplot as plt
 import os
 import math
-from PIL import Image
-from sklearn.model_selection import train_test_split
 import shutil
-import glob
+
 
 # warnings.filterwarnings("ignore")
 ROOT_DIR = "data/raw/brain_tumor_dataset"
